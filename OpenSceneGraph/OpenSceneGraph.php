@@ -16,8 +16,13 @@ $wgExtensionCredits['parserhook'][] = array(
 
 $wgHooks['ParserFirstCallInit'][] = 'OpenSceneGraphHooks::init';
 
-$wgHooks['UnitTestsList'][] = 'OpenSceneGraphHooks::registerUnitTests';
-
 $wgAutoloadClasses['OpenSceneGraphHooks'] = dirname(__FILE__) . '/OpenSceneGraph.hooks.php';
+
+$wgResourceModules['ext.OpenSceneGraph'] = array(
+	'scripts' => 'js/ext.OpenSceneGraph.js',
+	'styles' => array('css/ext.OpenSceneGraph.css'),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'OpenSceneGraph',
+);
 
 ?>

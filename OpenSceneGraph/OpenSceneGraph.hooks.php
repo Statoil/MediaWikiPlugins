@@ -8,7 +8,9 @@ class OpenSceneGraphHooks {
 	}
 
 	public static function renderFromTag($input, array $args, Parser $parser, PPFrame $frame) {
-		global $wgServer, $wgScriptPath;
+		global $wgServer,$wgOut, $wgScriptPath;
+		$wgOut->addModules( 'ext.OpenSceneGraph');
+
 		$basepath = $wgScriptPath;
 		$config = self::getTagConfig($args);
 		$url = $wgServer;
@@ -21,16 +23,14 @@ class OpenSceneGraphHooks {
 			} else {
 				$url .= $args['file'];
 			}
-			$output = "<object type=\"application/osg-viewer\" data=\"$url\" width=\"" . $config['width'] . "\" height=\"" . $config['height'] . "\"></object>";
+			$output = "<div class=\"osg-container\" style=\"width: {$config['width']}px; height: {$config['height']}px;\">";
+			$output .= "<object class=\"osg-obj\" type=\"application/osg-viewer\" data=\"$url\"></object>";
+			$output .= "<button class=\"fullscreen-control\">Toggle fullscreen</button>";
+			$output .= '</div>';
 		} else {
 			$output = "<div>IVS file " . $args['file'] . "doesn't exist</div>";
 		}
 		return array($output, 'noparse' => true, 'isHTML' => true);
-	}
-
-
-	public static function registerUnitTests(&$files) {
-		return true;
 	}
 
 	public static function getTagConfig($args) {
